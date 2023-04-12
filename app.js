@@ -9,7 +9,8 @@ var usersRouter = require('./routes/users');
 var islandsRouter = require('./routes/islands');
 var boardRouter = require('./routes/board');
 var selectorRouter = require('./routes/selector');
-
+var resourceRouter = require('./routes/resource');
+var islands = require("./models/islands");
 var app = express();
 
 // view engine setup
@@ -27,6 +28,15 @@ app.use('/users', usersRouter);
 app.use('/islands', islandsRouter);
 app.use('/board', boardRouter);
 app.use('/selector', selectorRouter);
+app.use('/resource', resourceRouter);
+
+require('dotenv').config();
+const connectionString =
+process.env.MONGO_CON
+mongoose = require('mongoose');
+mongoose.connect(connectionString,
+{useNewUrlParser: true,
+useUnifiedTopology: true});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -43,5 +53,35 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
+//Get the default connection
+var db = mongoose.connection;
+//Bind connection to error event
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.once("open", function(){
+console.log("Connection to DB succeeded")});
 module.exports = app;
+// We can seed the collection if needed on server start
+async function recreateDB(){
+// Delete everything
+await islands.deleteMany();
+let instance1 = new
+islands({island_name:"Mauritius",island_location:"Madagascar",number_of_visitors:600
+});
+let instance2 = new
+islands({island_name:"Bahamas",island_location:"northwestern West Indies",number_of_visitors:800
+});
+let instance3 = new
+islands({island_name:"Santorini",island_location:"southern Aegean Sea",number_of_visitors:400
+});
+instance1.save().then( () => 
+{ console.log('First Object is created'); }).catch( (e) => 
+{ console.log('There was an error', e.message); });
+instance2.save().then( () => 
+{ console.log('second Object is created'); }).catch( (e) => 
+{ console.log('There was an error', e.message); });
+instance3.save().then( () => 
+{ console.log('third Object is created'); }).catch( (e) => 
+{ console.log('There was an error', e.message); });
+}
+let reseed = true;
+if (reseed) { recreateDB();}
