@@ -2,10 +2,11 @@ extends layout
 
 block content
   h1= title
-  - var islands=[{island_name:"Mauritius",island_location:"Madagascar",number_of_visitors:600},{island_name:"Bahamas",island_location:"northwestern West Indies",number_of_visitors:800},{island_name:"Santorini",island_location:"southern Aegean Sea",number_of_visitors:400}]
+  //- var islands=[{island_name:"Mauritius",island_location:"Madagascar",number_of_visitors:600},{island_name:"Bahamas",island_location:"northwestern West Indies",number_of_visitors:800},{island_name:"Santorini",island_location:"southern Aegean Sea",number_of_visitors:400}]
+  -let result =results
   div(class="container-fluid")
   div(class="row")
-   each i,index  in islands
+   each i,index in result
     div(class="col-sm-2" onclick =`buy(${index})`) #{i.island_name}, #{i.island_location}, #{i.number_of_visitors}
     script.
         function buy(a)
