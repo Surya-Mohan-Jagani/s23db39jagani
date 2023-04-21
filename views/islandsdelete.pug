@@ -1,0 +1,49 @@
+extends layout
+block content
+    h1= title
+    if (toShow == null)
+     h2 No instance to delete
+    else
+     - let islands_id = toShow._id
+     - let island_name = toShow.island_name
+     - let island_location = toShow.island_location
+     - let number_of_visitors = toShow.number_of_visitors
+     - let actionid = "/resource/islands/" + islands_id
+     script let actionid = "#{actionid}"
+     div
+        div.row
+            div(class='islandsAttr mr-3') islands_id is:
+            div #{islands_id}
+        div.row
+            div(class='islandsAttr mr-3') island_name is:
+            div #{island_name}
+        div.row
+            div(class='islandsAttr mr-3') island_location is:
+            div #{island_location}
+        div.row
+            div(class='islandsAttr mr-3') number_of_visitors is:
+            div #{number_of_visitors}
+     button(class="btn btn-danger m-2" onclick="deleteOnid()") Delete
+     button(class="btn btn-secondary m-2" onclick="cancel()") Cancel
+    script.
+        function cancel() {
+        // Go back to the home page for the costume collection
+        window.location.href='/islands'
+        }
+    script.
+        function deleteOnid() {
+        console.log("starting delete")
+        // delete first
+        fetch(actionid, {
+        method: 'DELETE' 
+        }).then((resp) => {
+        return resp.json(); // or resp.text() or whatever the server sends
+        }).then((body) => {
+        alert("Delete succeded")
+        window.location.href='/islands'
+        // TODO handle body
+        }).catch((error) => {
+        // TODO handle error
+        alert("Delete failed " + error )
+        });
+     }
