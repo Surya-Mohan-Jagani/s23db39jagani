@@ -2,12 +2,17 @@ extends layout
 
 block content
   h1= title
-  //- var islands=[{island_name:"Mauritius",island_location:"Madagascar",number_of_visitors:600},{island_name:"Bahamas",island_location:"northwestern West Indies",number_of_visitors:800},{island_name:"Santorini",island_location:"southern Aegean Sea",number_of_visitors:400}]
-  -let result =results
+  //- var ice=[{ice_name:"chocolate",number_of_scoops:"3",ice_price:50},{ice_name:"blackberry",number_of_scoops:"2",ice_price:40},{ice_name:"butterscotch",number_of_scoops:"5",ice_price:60}]
+  - let result =results
   div(class="container-fluid")
   div(class="row")
-   each i,index in result
-    div(class="col-sm-2" onclick =`buy(${index})`) #{i.island_name}, #{i.island_location}, #{i.number_of_visitors}
+   each i,index  in result
+    div(class="col-sm-2" onclick =`buy(${index})`) #{i.island_name}, #{i.island_location}, #{i.island_location}
+    button.btn( class="btn-primary ml-1", onclick= destination) Update
+  script.
+   function dispatch(path){
+    window.location.href=path
+   }
     script.
         function buy(a)
         {
