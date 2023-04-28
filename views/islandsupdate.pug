@@ -1,43 +1,43 @@
 extends layout
 block content
-    h1= title
-    
-    if (toShow == null)
-     h2 No instance to update
-    else
-        - let islands_id = toShow._id
-        - let island_name = toShow.island_name
-        - let island_location = toShow.island_location
-        - let number_of_visitors = toShow.number_of_visitors
-            div.row(class='mb-2')
-            div.mr-1 ID is
-            div #{islands_id}
-            - let actionid = "/resource/islands/" + islands_id
-            form(id='islandsForm', action= actionid, method="PUT")
-            div.form-group
-                label.bullAttr(for='island_name') island_name
-                input#island_name(type='text', name='island_name', value= island_name )
-            div.form-group
-                label.bullAttr(for='island_location') island_location
-                input#island_location(type='text', name='island_location', value= island_location )
-            div.form-group
-                label.bullAttr(for='Soap_Color') number_of_visitors
-                input#number_of_visitors(type='number', name='number_of_visitors', value= number_of_visitors )
-            input(type="submit")
-            script.
-            document.forms['islandsForm'].addEventListener('submit', (event) => {
-            event.preventDefault();
-            // TODO do something here to show user that form is being submitted
-            fetch(event.target.action, {
-                method: 'PUT',
-                body: new URLSearchParams(new FormData(event.target)) // event.target is the form
-            }).then((resp) => {
-                return resp.json(); // or resp.text() or whatever the server sends
-            }).then((body) => {
-                alert("Update succeded")
-                // TODO handle body
-            }).catch((error) => {
-                // TODO handle error
-                alert("Update failed " + error )
-            });
-            });
+  h1= title
+  if(toShow==null)
+    h2 no instance found
+  else
+    - let islands_id = toShow._id
+    - let island_name = toShow.island_name
+    - let island_location = toShow.island_location
+    - let number_of_visitors = toShow.number_of_visitors
+    div.row(class='mb-2')
+      div.mr-1 ID is
+      div #{soapsid}
+    - let actionid = "/resource/islands/" + islands_id
+    form(id='islandsForm', action= actionid, method="PUT")
+      div.form-group
+        label.islandsAttr(for='island_name') island_name
+        input#island_name(type='text', name='island_name', value= island_name )
+      div.form-group
+        label.islandsAttr(for='island_location') island_location
+        input#island_location(type='text', name='number_of_visitors', value= number_of_visitors )
+      div.form-group
+        label.islandsAttr(for='number_of_visitors') number_of_visitors
+        input#number_of_visitors(type='number', name='island_location', value= island_location )
+        
+      input(type="submit")
+    script.
+      document.forms['islandsForm'].addEventListener('submit', (event) => {
+        event.preventDefault();
+                                        
+        fetch(event.target.action, {
+          method:"PUT",
+          body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+        }).then((resp) => {
+          return resp.json(); // or resp.text() or whatever the server sends
+        }).then((body) => {
+          alert("Update succeeded")
+          // TODO handle body
+        }).catch((error) => {
+          // TODO handle error
+          alert("Update failed, Give correct details " + error )
+        });
+      });

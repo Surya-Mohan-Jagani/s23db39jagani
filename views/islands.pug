@@ -4,11 +4,18 @@ block content
   h1= title
   //- var ice=[{ice_name:"chocolate",number_of_scoops:"3",ice_price:50},{ice_name:"blackberry",number_of_scoops:"2",ice_price:40},{ice_name:"butterscotch",number_of_scoops:"5",ice_price:60}]
   - let result =results
+  - let create = `dispatch(\"/islands/create\")`
+  button.btn( class="btn-info", onclick= create) Add new islands
   div(class="container-fluid")
   div(class="row")
    each i,index  in result
-    div(class="col-sm-2" onclick =`buy(${index})`) #{i.island_name}, #{i.island_location}, #{i.island_location}
-    button.btn( class="btn-primary ml-1", onclick= destination) Update
+      - let destination = `dispatch(\"/islands/update?id=${result._id}\")`
+      - let detail = `dispatch(\"/islands/detail/?id=${result._id}")`
+      - let deletesoaps = `dispatch(\"/islands/delete/?id=${result._id}")`      
+      div(class="col-sm-2" onclick =`buy(${index})`) #{i.island_name}, #{i.island_location}, #{i.island_location}
+        button.btn( class="btn-primary ml-1", onclick= destination) Update
+        button.btn( class="btn-success", onclick= detail) Details
+        button.btn( class="btn-dark", onclick= deletesoaps) Delete
   script.
    function dispatch(path){
     window.location.href=path
